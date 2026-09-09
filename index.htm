@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exceptions Barcode Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <link
+    href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAC//QAAv/0AAL/9AAClJQAApSUAAKUlAAClJQAApSUAAKUlAAClJQAApSUAAKUlAAClJQAApSUAAP//AAA="
+    rel="icon" type="image/x-icon">
+  <!--Adsense-->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6164656622931385"
+   crossorigin="anonymous"></script>
+  <!--End of Adsense-->
+  <style>
+:root {
+  --border-radius: 0.5rem;
+  --border-size: 0.15rem;
+  --border-bg: conic-gradient(blue, aqua, blue, blue);
+  --padding: 4px;
+  --title-gradient: linear-gradient(to bottom, #0f4778 0%, #1c6db0 45%, #58a5e2 100%);
+}
+
+:root[data-title-gradient='amazon-blue'] {
+  --title-gradient: linear-gradient(to bottom, #0f4778 0%, #1c6db0 45%, #58a5e2 100%);
+}
+
+:root[data-title-gradient='subtle-pink'] {
+  --title-gradient: linear-gradient(to bottom, #ffe8f1 0%, #ffd7e8 52%, #f8bdd8 100%);
+}
+
+:root[data-title-gradient='blue-white'] {
+  --title-gradient: linear-gradient(to bottom, #3f87ff 0%, #89b8ff 45%, #ffffff 100%);
+}
+
+@font-face {
+  font-family: amazon ember display;
+  font-style: normal;
+  font-weight: 400;
+  src: local('Amazon Ember Display'), url('https://fonts.cdnfonts.com/s/67521/Amazon Ember Display.woff') format('woff')
+}
+
+.title {
+  box-shadow: 0 0.75rem 0.95rem #0003;
+  margin: 0 auto;
+  background: none;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #eee;
+  text-align: center;
+  flex-direction: column;
+  font-family:  Amazon Ember Display, Arial, sans-serif;
+  font-weight: 400;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+#controlBarcodes {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 150px;
+}
+
+#containerBarcode {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--border-radius) - var(--border-size));
+}
+
+.rotating-border {
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--padding) + var(--border-size));
+  border-radius: var(--border-radius);
+
+  &::before {
+    content: '';
+    display: block;
+    background: var(--border-bg);
+    width: calc(100% * 1.41421356237);
+    padding-bottom: calc(100% * 1.41421356237);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+    z-index: -2;
+    animation: spin 5s linear infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: var(--border-size);
+    background: var(--title-gradient);
+    z-index: -1;
+    border-radius: calc(var(--border-radius) - var(--border-size));
+  }
+}
+
+#tag {
+  display: flex;
+  justify-content: right;
+  height: 20px;
+  font-size: 8px;
+  margin-bottom: -10px;
+  color: #33f
+}
+
+#tag:hover {
+  color: white;
+  user-select: none;
+  cursor: default;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+}
+
+p,td {
+  font-family: arial;
+}
+
+.titletext i {
+  font-size: small;
+}
+
+.titletext {
+  padding: 4px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.title {
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #999999;
+  border-radius: 10px;
+  background: rgb(234, 231, 222);
+  padding: 5px;
+  font-weight: 400;
+  font-family: Amazon Ember Display, Arial, sans-serif;
+  display: table;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  transition: 0.1s 0.1s cubic-bezier(.93, .43, .56, .9);
+}
+
+#gradientPicker {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.title-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-right: 88px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  padding-bottom: 3px;
+  border-bottom: 3px solid #f7b800;
+}
+
+.title-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.gradient-choice {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.gradient-choice:hover {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.gradient-choice[data-gradient-choice='amazon-blue'] {
+  background: linear-gradient(to bottom, #0f4778 0%, #1c6db0 45%, #58a5e2 100%);
+}
+
+.gradient-choice[data-gradient-choice='subtle-pink'] {
+  background: linear-gradient(to bottom, #ffe8f1 0%, #ffd7e8 52%, #f8bdd8 100%);
+}
+
+.gradient-choice[data-gradient-choice='blue-white'] {
+  background: linear-gradient(to bottom, #3f87ff 0%, #89b8ff 45%, #ffffff 100%);
+}
+
+.gradient-choice.active {
+  border-color: #111;
+  transform: scale(1.08);
+}
+
+.title.rotating-border:hover {
+  --border-size: .2rem;
+}
+
+.title h1 {
+  margin: 0;
+  cursor: default;
+  user-select: none;
+}
+
+.apmbutton {
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ffc826;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: arial, helvetica, sans-serif;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  color: #000000;
+  background-color: #ffd65e;
+  margin: 0px 3px 0px 3px;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#ffd65e),
+      to(#ce9a01));
+}
+
+.apmbutton:hover {
+  color: rgb(247, 247, 247);
+  border: 1px solid #f7b800;
+  background-color: #ffc92b;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#ffc92b),
+      to(#ce9a01));
+}
+
+.spdbutton {
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #170675;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: arial, helvetica, sans-serif;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #23a2ec;
+  margin: 0px 3px 0px 3px;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#5ec4ff),
+      to(#2001ce));
+}
+
+.stripbutton {
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  border: 1px solid #ce0101;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: arial, helvetica, sans-serif;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #23a2ec;
+  margin: 0px 3px 0px 3px;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#f35e5e),
+      to(#ce0101));
+}
+
+.stripbuttonF {
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  border: 1px solid #ec850e;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: arial, helvetica, sans-serif;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #23a2ec;
+  margin: 0px 3px 0px 3px;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#e79b44),
+      to(#ec850e));
+}
+
+.stripbutton:hover {
+  border: 1px solid #e93dcc;
+}
+
+.spdbutton:hover {
+  border: 1px solid #8cd8fc;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#5ec4ffaf),
+      to(#2001cea9));
+}
+
+input[type="text"], input[type="number"] {
+  background: #ffffff;
+  border-radius: 3px;
+  border: solid 1px #ddbd0ada;
+  height: 20px;
+  padding-left: 10px;
+  width: 200px;
+  box-shadow: 0 0.3rem 0.5rem rgba(41, 38, 38, 0.199);
+  transition: 0.1s 0.1s cubic-bezier(.93, .43, .56, .9);
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+  border-bottom: 3px solid #0a5986c5;
+  outline: none;
+  padding: 4px;
+}
+
+.mainPrint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.apmbutton--print {
+  color: #ffffff;
+  border: 1px solid #08406f;
+  background-color: #0b63a8;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#1a88df),
+      to(#0a4f86));
+}
+
+.apmbutton--print:hover {
+  color: #ffffff;
+  border: 1px solid #062f52;
+  background-color: #0a5a98;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#28a0ff),
+      to(#0a4a7c));
+}
+
+.settings-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.settings-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+#presets {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  border-top: 2px solid #200388;
+  border-bottom: 2px solid #200388;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 7px 6px;
+}
+
+.presets-title {
+  flex-basis: 100%;
+  margin: 0 0 8px;
+  text-align: left;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: #1b2653;
+  text-transform: uppercase;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotating 2s linear infinite;
+  transition: animation-duration 2s ease-in-out, stroke 2s ease-in-out;
+}
+
+.rotating:hover {
+  stroke: #a37f05 !important;
+  animation-duration: .5s;
+}
+
+#printAnim {
+  border-radius: 0 0 1rem 1rem;
+  z-index: 1;
+  margin-top: -90px;
+  transition: margin-top 1s ease-in-out;
+  border: 1px solid blue;
+  border-top: none;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+#printAnim:hover {
+  margin-top: -30px;
+  transition: margin-top 1s ease-in-out;
+}
+
+#printAnim:hover:after {
+  transform: scaleX(1);
+  transition: transform 1s ease-in-out;
+}
+
+#printAnim:after {
+  content: ' ';
+  position: relative;
+  padding-top: 1px;
+  border-bottom: 2px solid blue;
+  transform-origin: 0% 50%;
+  display: block;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+#utilities, #controlBarcodes {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 10px 0;
+  border-bottom: 2px solid #ffffff;
+}
+
+#utilities {
+  flex-wrap: wrap;
+  gap: 10px 10px;
+}
+
+#inputs {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 0px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.45) 0%, rgba(221, 238, 255, 0.22) 55%, rgba(255, 255, 255, 0.14) 100%);
+  box-shadow: 0 8px 22px rgba(10, 38, 64, 0.2);
+  backdrop-filter: blur(3px);
+}
+
+#inputs label {
+  margin-top: 2px;
+}
+
+#inputs input {
+  margin-bottom: 4px;
+}
+
+#create {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 36px;
+  flex-grow: 1;
+  width: 100%;
+  margin: 14px 0 18px;
+  padding: 8px 12px;
+}
+
+#barcodePreviewSection {
+  align-self: center;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+  padding: 6px 8px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 246, 255, 0.72) 100%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#barcodePreviewTitle {
+  width: 100%;
+  margin: 0 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(8, 64, 111, 0.25);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #163f66;
+  text-align: left;
+}
+
+.delete-btn {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.delete-btn:hover {
+  cursor: pointer;
+  color: rgba(255, 0, 0, 0.9);
+}
+
+a.apmbutton[data-user] {
+  white-space: nowrap;
+}
+
+/* Modal Dialog Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 25, 45, 0.72);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  max-width: 480px;
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  text-align: left;
+  border: 2px solid #0f4778;
+  position: relative;
+  animation: modalSlideUp 0.25s ease-out;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #0f4778;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0 6px;
+  border-radius: 4px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  color: #ce0101;
+  background-color: #fee2e2;
+}
+
+.modal-intro {
+  font-size: 0.88rem;
+  color: #475569;
+  margin: 0 0 16px 0;
+  line-height: 1.45;
+}
+
+.modal-field {
+  margin-bottom: 14px;
+}
+
+.modal-field label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.88rem;
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+.modal-field .required {
+  color: #ce0101;
+}
+
+.modal-field input[type="text"] {
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  background-color: #f8fafc;
+  color: #111827;
+}
+
+.modal-field input[type="text"]:focus {
+  border-color: #0f4778;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(15, 71, 120, 0.15);
+  padding: 6px 12px;
+}
+
+.field-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.modal-status {
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  line-height: 1.35;
+}
+
+.modal-status.success {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.modal-status.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.modal-status.info {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.apmbutton--save {
+  background-color: #0d8359;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#10b981), to(#047857));
+  color: #ffffff;
+  border: 1px solid #065f46;
+}
+
+.apmbutton--save:hover {
+  background-color: #047857;
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#059669), to(#064e3b));
+}
+
+.apmbutton--test {
+  background-color: #3b82f6;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#60a5fa), to(#2563eb));
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+}
+
+.apmbutton--test:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#3b82f6), to(#1e40af));
+}
+
+.btn-webui {
+  text-decoration: none;
+}
+  </style>
+</head>
+<body>
+  <div id="containerBarcode">
+    <div class="title rotating-border">
+      <div id="gradientPicker" aria-label="Choose title background gradient">
+        <div class="gradient-choice" data-gradient-choice="amazon-blue" title="Amazon Blue"></div>
+        <div class="gradient-choice" data-gradient-choice="subtle-pink" title="Subtle Pink"></div>
+        <div class="gradient-choice" data-gradient-choice="blue-white" title="Blue to White"></div>
+      </div>
+      <div class="title-heading">
+        <img class="title-mark" src="./images/earthdark.jpg" alt="Exceptions logo">
+        <h1>Dave's Exceptions Barcode Generator</h1>
+      </div>
+      <div id="create">
+        <div class="titletext" id="inputs">
+          <label for="barcodedata"><span id="barcodedata_label">Barcode Data</span></label>
+          <input maxlength="43" id="barcodedata" type="text" placeholder="max 43 Characters">
+          <label for="displaytext">Enter Display Text
+            </label>
+          <input maxlength="43" id="displaytext" type="text" placeholder="Human Readable Text">
+          <label for="quantity">
+            Enter Quantity</label>
+          <input maxlength="3" id="quantity" type="number" value="1" max="500" min="1" step="1">
+          <p class="mainPrint">
+            <a class="apmbutton" onClick="addPreset();">Add Preset</a>
+            <a class="apmbutton" onClick="clearUserPresets();">Clear Presets</a>
+            <a class="apmbutton apmbutton--print" onClick="printLabel();">Print Label</a>
+            <a id="settingsBtn" class="settings-trigger" href="javascript:void(0);" onClick="openSettingsModal(false); return false;" title="Configure Badge ID &amp; Printer Path">
+              <svg class="rotating" width="30px" height="30px" viewBox="0 0 25 25" fill="none" stroke="#000000" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M14.2624 5.40607L13.8714 4.42848C13.6471 3.86771 13.104 3.5 12.5 3.5C11.896 3.5 11.3529 3.86771 11.1286 4.42848L10.7376 5.40607C10.5857 5.78585 10.2869 6.08826 9.90901 6.2448C9.53111 6.40133 9.10603 6.39874 8.73006 6.23761L7.76229 5.82285C7.20716 5.58494 6.56311 5.70897 6.13604 6.13604C5.70897 6.56311 5.58494 7.20716 5.82285 7.76229L6.23761 8.73006C6.39874 9.10602 6.40133 9.53111 6.2448 9.90901C6.08826 10.2869 5.78585 10.5857 5.40607 10.7376L4.42848 11.1286C3.86771 11.3529 3.5 11.896 3.5 12.5C3.5 13.104 3.86771 13.6471 4.42848 13.8714L5.40607 14.2624C5.78585 14.4143 6.08826 14.7131 6.2448 15.091C6.40133 15.4689 6.39874 15.894 6.23761 16.2699L5.82285 17.2377C5.58494 17.7928 5.70897 18.4369 6.13604 18.864C6.56311 19.291 7.20716 19.4151 7.76229 19.1772L8.73006 18.7624C9.10603 18.6013 9.53111 18.5987 9.90901 18.7552C10.2869 18.9117 10.5857 19.2141 10.7376 19.5939L11.1286 20.5715C11.3529 21.1323 11.896 21.5 12.5 21.5C13.104 21.5 13.6471 21.1323 13.8714 20.5715L14.2624 19.5939C14.4143 19.2141 14.7131 18.9117 15.091 18.7552C15.4689 18.5987 15.894 18.6013 16.2699 18.7624L17.2377 19.1771C17.7928 19.4151 18.4369 19.291 18.864 18.864C19.291 18.4369 19.4151 17.7928 19.1771 17.2377L18.7624 16.2699C18.6013 15.894 18.5987 15.4689 18.7552 15.091C18.9117 14.7131 19.2141 14.4143 19.5939 14.2624L20.5715 13.8714C21.1323 13.6471 21.5 13.104 21.5 12.5C21.5 11.896 21.1323 11.3529 20.5715 11.1286L19.5939 10.7376C19.2141 10.5857 18.9117 10.2869 18.7552 9.90901C18.5987 9.53111 18.6013 9.10602 18.7624 8.73006L19.1772 7.76229C19.4151 7.20716 19.291 6.56311 18.864 6.13604C18.4369 5.70897 17.7928 5.58494 17.2377 5.82285L16.2699 6.23761C15.894 6.39874 15.4689 6.40133 15.091 6.2448Z"
+                  stroke-width="1.2" />
+                <path
+                  d="M16.5 12.5C16.5 14.7091 14.7091 16.5 12.5 16.5C10.2909 16.5 8.5 14.7091 8.5 12.5C8.5 10.2909 10.2909 8.5 12.5 8.5C14.7091 8.5 16.5 10.2909 16.5 12.5Z"
+                  stroke-width="1.2" />
+              </svg>
+            </a>
+          </p>
+        </div>
+        <div id="barcodePreviewSection">
+          <div id="barcodePreviewTitle">Preview Barcode</div>
+          <svg id="barcodePreview"></svg>
+        </div>
+      </div>
+      <div id="presets">
+        <h3 class="presets-title">Presets</h3>
+        <a class="apmbutton" onClick='printAnylabel("Non Sort","Non Sort","ISS Exception",2);'>1:Non Sort</a>
+        <a class="apmbutton" onClick='printAnylabel("Cubiscan","Cubiscan","ISS Exception",2);'>2:Cubiscan</a>
+        <a class="apmbutton" onClick='printAnylabel("Hazmat","Hazmat","ISS Exception",2);'>3:Hazmat</a>
+        <a class="apmbutton" onClick='printAnylabel("Broken Set","Broken Set","ISS Exception",2);'>4:Broken Set</a>
+        <a class="apmbutton" onClick='printAnylabel("DL Need","DL Need","ISS Exception",2);'>5:DL Need</a>
+        <a class="apmbutton" onClick='printAnylabel("Unknown Asin","Unknown Asin","ISS Exception",2);'>6:Unknown Asin</a>
+        <a class="apmbutton" onClick='printAnylabel("Pet Product","Pet Product","ISS Exception",2);'>7:Pet Product</a>
+        <a class="apmbutton" onClick='printAnylabel("Defective PS","Defective PS","ISS Exception",2);'>8:Defective PS</a>
+        <a class="apmbutton" onClick='printAnylabel("Damaged","Damaged","ISS Exception",2);'>9:Damaged</a>
+      </div>
+      <div id="utilities">
+        <a class="spdbutton" onClick='printAnylabel("1","1","Sideline Speed Baby!",1);'>&copy; Speed Sideliner Label</a>
+        <a class="stripbuttonF" onClick='printQS()'>&equiv; Quantity Stow Speed Sheet</a>
+        <a class="stripbuttonF" onClick='printQSZPL()'>&equiv; Quantity Stow Speed Sheet(ZPL)</a>
+        <a class="stripbutton"
+          onClick='printAnylabel("ISS Exceptions","ISS Exceptions","ISS Exceptions Do Not Stow!",10);'>&equiv; ISS
+          Exceptions Uboat</a>
+        <a class="stripbutton"
+          onClick='printAnylabel("ISS Exceptions","Damaged Items Uboat","Damaged Items Uboat Do Not Stow!",10);'>&equiv;
+          Damaged Items Uboat</a>
+        <a class="stripbutton"
+          onClick='printAnylabel("ISS Exceptions","Defective PS Uboat","Defective PS Uboat - Leave on Floor!, Do Not Stow!",10);'>&equiv;
+          Defective PS Uboat</a>
+        <a class="spdbutton" onClick='printNow();'>Now!</a>
+      </div>
+      <div id="controlBarcodes">
+        <a class="spdbutton" onClick='printTab()'><svg id="barcodeST"></svg></a>
+        <a class="spdbutton" onClick='printDoubleTab()'><svg id="barcodeDT"></svg></a>
+        <a class="spdbutton"><svg id="barcodeDTS"></svg></a>
+      </div>
+      <div id="tag">&copy; Alabama State Trooper 1337</div>
+    </div>
+  </div>
+  <div id="printAnim"><svg id="barcode" width="376px" height="110px" x="0px" y="0px" viewBox="0 0 376 142"
+      xmlns="http://www.w3.org/2000/svg" version="1.1" style="transform: translate(0px, 0px);">
+      <rect x="0" y="0" width="376" height="142" style="fill:#ffffff;" />
+      <g transform="translate(10, 10)" style="fill:#000000;">
+        <rect x="0" y="0" width="4" height="100" />
+        <rect x="6" y="0" width="2" height="100" />
+        <rect x="12" y="0" width="2" height="100" />
+        <rect x="22" y="0" width="2" height="100" />
+        <rect x="26" y="0" width="4" height="100" />
+        <rect x="36" y="0" width="2" height="100" />
+        <rect x="44" y="0" width="2" height="100" />
+        <rect x="50" y="0" width="2" height="100" />
+        <rect x="54" y="0" width="4" height="100" />
+        <rect x="66" y="0" width="8" height="100" />
+        <rect x="76" y="0" width="2" height="100" />
+        <rect x="82" y="0" width="2" height="100" />
+        <rect x="88" y="0" width="2" height="100" />
+        <rect x="92" y="0" width="4" height="100" />
+        <rect x="100" y="0" width="2" height="100" />
+        <rect x="110" y="0" width="4" height="100" />
+        <rect x="116" y="0" width="4" height="100" />
+        <rect x="124" y="0" width="4" height="100" />
+        <rect x="132" y="0" width="4" height="100" />
+        <rect x="142" y="0" width="2" height="100" />
+        <rect x="150" y="0" width="2" height="100" />
+        <rect x="154" y="0" width="2" height="100" />
+        <rect x="158" y="0" width="8" height="100" />
+        <rect x="170" y="0" width="2" height="100" />
+        <rect x="176" y="0" width="4" height="100" />
+        <rect x="182" y="0" width="4" height="100" />
+        <rect x="190" y="0" width="4" height="100" />
+        <rect x="198" y="0" width="2" height="100" />
+        <rect x="206" y="0" width="2" height="100" />
+        <rect x="214" y="0" width="4" height="100" />
+        <rect x="220" y="0" width="2" height="100" />
+        <rect x="228" y="0" width="8" height="100" />
+        <rect x="238" y="0" width="2" height="100" />
+        <rect x="242" y="0" width="2" height="100" />
+        <rect x="250" y="0" width="8" height="100" />
+        <rect x="260" y="0" width="2" height="100" />
+        <rect x="264" y="0" width="4" height="100" />
+        <rect x="272" y="0" width="2" height="100" />
+        <rect x="276" y="0" width="2" height="100" />
+        <rect x="286" y="0" width="4" height="100" />
+        <rect x="294" y="0" width="4" height="100" />
+        <rect x="300" y="0" width="4" height="100" />
+        <rect x="308" y="0" width="6" height="100" />
+        <rect x="316" y="0" width="2" height="100" />
+        <rect x="320" y="0" width="8" height="100" />
+        <rect x="330" y="0" width="4" height="100" />
+        <rect x="340" y="0" width="6" height="100" />
+        <rect x="348" y="0" width="2" height="100" />
+        <rect x="352" y="0" width="4" height="100" />
+      </g>
+    </svg></div>
+
+  <!-- Configuration Modal Dialog -->
+  <div id="settingsModal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle">Printer &amp; Badge Configuration</h2>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" onclick="closeSettingsModal();" aria-label="Close dialog">&times;</button>
+      </div>
+      <p class="modal-intro" id="modalIntro">Please enter your Badge ID and Printer Path to enable printing. These settings are saved in your browser and used for all print commands.</p>
+      <form id="settingsForm" onsubmit="saveSettings(event);">
+        <div class="modal-field">
+          <label for="modalBadgeId">Badge ID <span class="required">*</span></label>
+          <input type="text" id="modalBadgeId" placeholder="e.g. 8008135" autocomplete="off" required>
+        </div>
+        <div class="modal-field">
+          <label for="modalPrinterPath">Printer Path / URL <span class="required">*</span></label>
+          <input type="text" id="modalPrinterPath" placeholder="e.g. http://printer-host:port" autocomplete="off" required>
+          <small class="field-hint">Specify protocol, host and port (e.g. http://127.0.0.1:8080 or http://printer-host:port).</small>
+        </div>
+        <div id="modalStatusMsg" class="modal-status" style="display: none;"></div>
+        <div class="modal-actions">
+          <button type="submit" class="apmbutton apmbutton--save">Save Settings</button>
+          <button type="button" class="apmbutton apmbutton--test" onclick="testPrinterConnection();">Test Connection</button>
+          <a id="modalWebUiLink" class="spdbutton btn-webui" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">Open WebUI</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+/* ==========================================
+   Core Identification & Communication
+========================================== */
+function genId() {
+  var id = "";
+  for (var i = 0; i < 10; i++) id += Math.floor(Math.random() * 9);
+  return id;
+}
+
+function getStatus(url, funcvalid, funcinvalid) {
+  var xmlhttp;
+  if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState == 4) {
+      if (xmlhttp.status >= 200 && xmlhttp.status < 400 && (xmlhttp.responseText == "valid" || xmlhttp.status == 200)) {
+        if (funcvalid) funcvalid();
+      } else {
+        if (funcinvalid) funcinvalid();
+      }
+    }
+  };
+
+  try {
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  } catch (e) {
+    if (funcinvalid) funcinvalid();
+  }
+}
+
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  if (query != "") {
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (pair[0] == variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+  }
+  return false;
+}
+
+function asciihex(str) {
+  var text = "";
+  if (!str) {
+    return text;
+  }
+  for (var i = 0, l = str.length; i < l; i++) {
+    var hex = Number(str.charCodeAt(i)).toString(16);
+    text += hex;
+  }
+  return text;
+}
+
+function printFailed() {
+  alert("Failed to communicate with printer! Please verify your Printer Path configuration.");
+}
+
+/* ==========================================
+   Configuration & LocalStorage Management
+========================================== */
+function getBadgeId() {
+  var queryBadge = getQueryVariable("badgeID");
+  if (queryBadge) {
+    return queryBadge;
+  }
+  return localStorage.getItem("badgeID") || "";
+}
+
+function getPrinterBaseUrl() {
+  var path = localStorage.getItem("printerPath") || "";
+  path = path.trim();
+  if (!path) {
+    return "";
+  }
+  if (!/^https?:\/\//i.test(path)) {
+    path = "http://" + path;
+  }
+  // Strip trailing /printer or trailing slashes
+  return path.replace(/\/printer\/?$/i, "").replace(/\/+$/, "");
+}
+
+function getPrinterEndpoint() {
+  var base = getPrinterBaseUrl();
+  return base ? (base + "/printer") : "";
+}
+
+function getPrinterWebUiUrl() {
+  var base = getPrinterBaseUrl();
+  return base ? (base + "/webui") : "";
+}
+
+function updateModalWebUiLink() {
+  var webUiLink = document.getElementById("modalWebUiLink");
+  var webUrl = getPrinterWebUiUrl();
+  if (webUrl && webUiLink) {
+    webUiLink.href = webUrl;
+    webUiLink.style.display = "inline-block";
+  } else if (webUiLink) {
+    webUiLink.style.display = "none";
+  }
+}
+
+function openSettingsModal(forceSetup) {
+  var modal = document.getElementById("settingsModal");
+  var closeBtn = document.getElementById("modalCloseBtn");
+  var badgeInput = document.getElementById("modalBadgeId");
+  var printerInput = document.getElementById("modalPrinterPath");
+  var statusMsg = document.getElementById("modalStatusMsg");
+
+  if (!modal) return;
+
+  statusMsg.style.display = "none";
+  statusMsg.className = "modal-status";
+  statusMsg.textContent = "";
+
+  badgeInput.value = localStorage.getItem("badgeID") || getQueryVariable("badgeID") || "";
+  printerInput.value = localStorage.getItem("printerPath") || "";
+
+  if (forceSetup) {
+    modal.dataset.force = "true";
+    closeBtn.style.display = "none";
+  } else {
+    modal.dataset.force = "false";
+    closeBtn.style.display = "block";
+  }
+
+  updateModalWebUiLink();
+  modal.style.display = "flex";
+  setTimeout(function() {
+    if (!badgeInput.value) {
+      badgeInput.focus();
+    } else {
+      printerInput.focus();
+    }
+  }, 100);
+}
+
+function closeSettingsModal() {
+  var modal = document.getElementById("settingsModal");
+  if (!modal) return;
+
+  var currentBadge = localStorage.getItem("badgeID");
+  var currentPrinter = localStorage.getItem("printerPath");
+
+  if (modal.dataset.force === "true" && (!currentBadge || !currentPrinter)) {
+    var statusMsg = document.getElementById("modalStatusMsg");
+    statusMsg.className = "modal-status error";
+    statusMsg.textContent = "Badge ID and Printer Path are required before closing.";
+    statusMsg.style.display = "block";
+    return;
+  }
+
+  modal.style.display = "none";
+}
+
+function saveSettings(event) {
+  if (event) event.preventDefault();
+
+  var badgeInput = document.getElementById("modalBadgeId");
+  var printerInput = document.getElementById("modalPrinterPath");
+  var statusMsg = document.getElementById("modalStatusMsg");
+
+  var badgeVal = badgeInput.value.trim();
+  var printerVal = printerInput.value.trim();
+
+  if (!badgeVal || !printerVal) {
+    statusMsg.className = "modal-status error";
+    statusMsg.textContent = "Both Badge ID and Printer Path are required.";
+    statusMsg.style.display = "block";
+    return;
+  }
+
+  localStorage.setItem("badgeID", badgeVal);
+  localStorage.setItem("printerPath", printerVal);
+
+  updateModalWebUiLink();
+
+  statusMsg.className = "modal-status success";
+  statusMsg.textContent = "Settings saved successfully!";
+  statusMsg.style.display = "block";
+
+  setTimeout(function () {
+    var modal = document.getElementById("settingsModal");
+    if (modal) {
+      modal.dataset.force = "false";
+      modal.style.display = "none";
+    }
+  }, 600);
+}
+
+function testPrinterConnection() {
+  var printerInput = document.getElementById("modalPrinterPath");
+  var statusMsg = document.getElementById("modalStatusMsg");
+  var printerVal = printerInput.value.trim();
+
+  if (!printerVal) {
+    statusMsg.className = "modal-status error";
+    statusMsg.textContent = "Please enter a Printer Path to test.";
+    statusMsg.style.display = "block";
+    return;
+  }
+
+  var tempBase = printerVal;
+  if (!/^https?:\/\//i.test(tempBase)) {
+    tempBase = "http://" + tempBase;
+  }
+  tempBase = tempBase.replace(/\/printer\/?$/i, "").replace(/\/+$/, "");
+
+  statusMsg.className = "modal-status info";
+  statusMsg.textContent = "Testing connection to " + tempBase + "...";
+  statusMsg.style.display = "block";
+
+  var testUrl = tempBase + "/printer?action=status&seq=" + genId();
+  getStatus(
+    testUrl,
+    function () {
+      statusMsg.className = "modal-status success";
+      statusMsg.textContent = "Connection successful! Printer responded.";
+    },
+    function () {
+      getStatus(
+        tempBase + "/webui",
+        function () {
+          statusMsg.className = "modal-status success";
+          statusMsg.textContent = "Connection successful! WebUI reachable.";
+        },
+        function () {
+          statusMsg.className = "modal-status error";
+          statusMsg.textContent = "Could not reach printer at " + tempBase;
+        }
+      );
+    }
+  );
+}
+
+function checkInitialConfig() {
+  var savedBadge = localStorage.getItem("badgeID");
+  var queryBadge = getQueryVariable("badgeID");
+
+  if (queryBadge && !savedBadge) {
+    localStorage.setItem("badgeID", queryBadge);
+    savedBadge = queryBadge;
+  }
+
+  var savedPrinter = localStorage.getItem("printerPath");
+
+  if (!savedBadge || !savedPrinter) {
+    openSettingsModal(true);
+  }
+}
+
+/* ==========================================
+   Preset Management
+========================================== */
+function addPreset() {
+  var barcode = document.getElementById("barcodedata").value;
+  var displayText = document.getElementById("displaytext").value;
+  if (barcode == "" && displayText == "") {
+    return;
+  }
+  barcode = barcode.trim();
+  var preset = {
+    id: createPresetId(),
+    barcode: barcode,
+    displayText: displayText
+  };
+  var pre = buildUserPresetButton(preset);
+  var presets = document.getElementById("presets");
+  presets.appendChild(pre);
+
+  var saved = getUserPresets();
+  saved.push(preset);
+  saveUserPresets(saved);
+}
+
+function loadPresets() {
+  var saved = getUserPresets();
+  var presetsDiv = document.getElementById("presets");
+  var migrated = false;
+
+  saved.forEach(function (p) {
+    if (!p.id) {
+      p.id = createPresetId();
+      migrated = true;
+    }
+    var pre = buildUserPresetButton(p);
+    presetsDiv.appendChild(pre);
+  });
+
+  if (migrated) {
+    saveUserPresets(saved);
+  }
+}
+
+function clearUserPresets() {
+  localStorage.removeItem("userPresets");
+  var presetsDiv = document.getElementById("presets");
+  var buttons = presetsDiv.querySelectorAll("a.apmbutton[data-user]");
+  buttons.forEach(function (b) { b.remove(); });
+}
+
+function createPresetId() {
+  return Date.now().toString(36) + "-" + genId();
+}
+
+function getUserPresets() {
+  try {
+    var saved = JSON.parse(localStorage.getItem("userPresets") || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveUserPresets(saved) {
+  localStorage.setItem("userPresets", JSON.stringify(saved));
+}
+
+function buildUserPresetButton(preset) {
+  var pre = document.createElement("a");
+  var label = preset.displayText != "" ? preset.displayText : preset.barcode;
+  pre.appendChild(document.createTextNode(label));
+
+  var deleteBtn = document.createElement("span");
+  deleteBtn.classList.add("delete-btn");
+  deleteBtn.title = "Remove preset";
+  deleteBtn.setAttribute("aria-label", "Remove preset");
+  deleteBtn.textContent = "×";
+  pre.appendChild(deleteBtn);
+
+  pre.dataset.user = "true";
+  pre.dataset.presetId = preset.id;
+  pre.classList.add("apmbutton");
+  pre.onclick = function () {
+    printAnylabel(
+      preset.displayText != "" ? preset.displayText : preset.barcode,
+      preset.barcode != "" ? preset.barcode : preset.displayText,
+      "ISS Exception",
+      2
+    );
+  };
+  return pre;
+}
+
+function removeStoredPreset(presetId) {
+  var saved = getUserPresets();
+  var index = saved.findIndex(function (p) {
+    return p.id === presetId;
+  });
+  if (index === -1) {
+    return;
+  }
+  saved.splice(index, 1);
+  saveUserPresets(saved);
+}
+
+function bindUserPresetDeleteHandler() {
+  var presetsDiv = document.getElementById("presets");
+  if (!presetsDiv) {
+    return;
+  }
+
+  presetsDiv.addEventListener("click", function (event) {
+    var deleteBtn = event.target.closest(".delete-btn");
+    if (!deleteBtn) {
+      return;
+    }
+
+    var presetButton = deleteBtn.closest("a.apmbutton[data-user]");
+    if (!presetButton) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    removeStoredPreset(presetButton.dataset.presetId);
+    presetButton.remove();
+  }, true);
+}
+
+/* ==========================================
+   Gradient Themes
+========================================== */
+function applyTitleGradientTheme(themeName) {
+  var validThemes = ["amazon-blue", "subtle-pink", "blue-white"];
+  var theme = validThemes.indexOf(themeName) !== -1 ? themeName : "amazon-blue";
+  document.documentElement.setAttribute("data-title-gradient", theme);
+
+  var choices = document.querySelectorAll(".gradient-choice");
+  choices.forEach(function (choice) {
+    choice.classList.toggle("active", choice.dataset.gradientChoice === theme);
+  });
+
+  return theme;
+}
+
+function normalizeGradientTheme(themeName) {
+  var map = {
+    "amazon-blue": "amazon-blue",
+    "amazonBlue": "amazon-blue",
+    "blue": "amazon-blue",
+    "subtle-pink": "subtle-pink",
+    "subtlePink": "subtle-pink",
+    "pink": "subtle-pink",
+    "blue-white": "blue-white",
+    "blueWhite": "blue-white",
+    "blue-to-white": "blue-white",
+    "white-blue": "blue-white"
+  };
+
+  return map[themeName] || "amazon-blue";
+}
+
+function getStoredGradientTheme() {
+  var keys = ["titleGradientTheme", "selectedGradientTheme", "selectedGradient"];
+  for (var i = 0; i < keys.length; i++) {
+    var value = localStorage.getItem(keys[i]);
+    if (value) {
+      return normalizeGradientTheme(value);
+    }
+  }
+  return "amazon-blue";
+}
+
+function initGradientPicker() {
+  var picker = document.getElementById("gradientPicker");
+  var storedTheme = getStoredGradientTheme();
+  var appliedTheme = applyTitleGradientTheme(storedTheme);
+  localStorage.setItem("titleGradientTheme", appliedTheme);
+
+  if (!picker) {
+    return;
+  }
+
+  picker.addEventListener("click", function (event) {
+    var choice = event.target.closest(".gradient-choice");
+    if (!choice) {
+      return;
+    }
+
+    var theme = choice.dataset.gradientChoice || choice.dataset.gradient;
+    var applied = applyTitleGradientTheme(theme);
+    localStorage.setItem("titleGradientTheme", applied);
+  });
+}
+
+function bindEnterToPrint() {
+  var inputFields = document.querySelectorAll("#inputs input");
+  inputFields.forEach(function (input) {
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+      event.preventDefault();
+      printLabel();
+    });
+  });
+}
+
+/* ==========================================
+   Print Actions
+========================================== */
+function printLabel() {
+  var barcode = document.getElementById("barcodedata").value;
+  var displayText = document.getElementById("displaytext").value;
+  var quant = document.getElementById("quantity").value;
+  barcode = barcode.trim();
+  printAnylabel(barcode, displayText, "", quant);
+}
+
+function printAnylabel(b, t, d, n) {
+  var endpoint = getPrinterEndpoint();
+  if (!endpoint) {
+    alert("Printer path is not configured. Please configure your settings.");
+    openSettingsModal(true);
+    return;
+  }
+
+  var badge = getBadgeId() || "8008135";
+  var parsedBadge = !isNaN(parseInt(badge, 10)) ? parseInt(badge, 10) : badge;
+
+  getStatus(
+    endpoint + "?action=print&type=barcode&" +
+      "data=" + encodeURIComponent(asciihex(b)) +
+      "&text=" + encodeURIComponent(asciihex(t)) +
+      "&quantity=" + encodeURIComponent(parseInt(n)) +
+      "&badgeid=" + encodeURIComponent(parsedBadge) +
+      "&desc=" + encodeURIComponent(asciihex(d)) +
+      "&seq=" + encodeURIComponent(genId()),
+    function () {},
+    printFailed
+  );
+}
+
+function printTab() {
+  var endpoint = getPrinterEndpoint();
+  if (!endpoint) {
+    openSettingsModal(true);
+    return;
+  }
+  var badge = getBadgeId() || 1;
+  var parsedBadge = !isNaN(parseInt(badge, 10)) ? parseInt(badge, 10) : badge;
+
+  getStatus(
+    endpoint + "?action=print&type=barcode&" +
+      "data=%09&text=" + encodeURIComponent(asciihex("Single Tab")) +
+      "&quantity=" + encodeURIComponent(1) +
+      "&badgeid=" + encodeURIComponent(parsedBadge) +
+      "&desc=" + encodeURIComponent(asciihex("Single Tab")) +
+      "&seq=" + encodeURIComponent(genId()),
+    function () {},
+    printFailed
+  );
+}
+
+function printDoubleTab() {
+  var endpoint = getPrinterEndpoint();
+  if (!endpoint) {
+    openSettingsModal(true);
+    return;
+  }
+  var badge = getBadgeId() || 1;
+  var parsedBadge = !isNaN(parseInt(badge, 10)) ? parseInt(badge, 10) : badge;
+
+  getStatus(
+    endpoint + "?action=print&type=barcode&" +
+      "data=0909&text=" + encodeURIComponent(asciihex("Double Tab")) +
+      "&quantity=" + encodeURIComponent(1) +
+      "&badgeid=" + encodeURIComponent(parsedBadge) +
+      "&desc=" + encodeURIComponent(asciihex("Double Tab")) +
+      "&seq=" + encodeURIComponent(genId()),
+    function () {},
+    printFailed
+  );
+}
+
+async function printQS() {
+  var endpoint = getPrinterEndpoint();
+  if (!endpoint) {
+    openSettingsModal(true);
+    return;
+  }
+  var badge = getBadgeId() || 0;
+  var parsedBadge = !isNaN(parseInt(badge, 10)) ? parseInt(badge, 10) : badge;
+
+  for (let k = 1; k < 11; k++) {
+    try {
+      await new Promise((resolve, reject) => {
+        getStatus(
+          endpoint + "?action=print&type=barcode&" +
+            "data=" + encodeURIComponent(asciihex(k.toString())) +
+            "&text=" + encodeURIComponent(asciihex(k.toString())) +
+            "&quantity=" + encodeURIComponent(2) +
+            "&badgeid=" + encodeURIComponent(parsedBadge) +
+            "&desc=" + encodeURIComponent(asciihex("------")) +
+            "&seq=" + encodeURIComponent(genId()),
+          () => resolve(),
+          () => {
+            printFailed();
+            reject();
+          }
+        );
+      });
+    } catch (error) {
+      console.error("Error in printQS: Request failed");
+      break;
+    }
+  }
+}
+
+async function printQSZPL() {
+  var base = getPrinterBaseUrl();
+  if (!base) {
+    openSettingsModal(true);
+    return;
+  }
+
+  var zpl = `
+^XA
+Boxes
+^FO10,10^GB386,180,5^FS
+^FO150,10^GB5,180,5^FS
+^FO360,10^GB5,180,5^FS
+^CF0,140,140
+^FB140,1,0,C,0
+^FO10,50,2^FD{data}\\&^FS
+^BY3
+^FO175,40
+^BCN,130,N,N,Y
+^FD{data}^FS
+^FX Branding
+^FT387,200^A0B,25,25^FB200,1,0,C^FH\\^FDSPEED ENTER \\&^FS
+^XZ`;
+
+  for (let k = 1; k < 11; k++) {
+    var encodedZPL = encodeURIComponent(zpl.replace("{data}", k));
+    var url = `${base}/bmp_request?page=printraw&data=${encodedZPL}`;
+    try {
+      await new Promise((resolve, reject) => {
+        getStatus(
+          url,
+          () => resolve(),
+          () => {
+            printFailed();
+            reject();
+          }
+        );
+      });
+    } catch (error) {
+      console.error("Error in printQSZPL: Request failed");
+      break;
+    }
+  }
+}
+
+function printNow() {
+  var now = new Date();
+  var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var month = monthNames[now.getMonth()];
+  var day = String(now.getDate()).padStart(2, "0");
+  var dateString = "Date: " + month + " " + day;
+  var hours = String(now.getHours()).padStart(2, "0");
+  var minutes = String(now.getMinutes()).padStart(2, "0");
+  var timeString = "Time: " + hours + ":" + minutes;
+  var description = dateString.padEnd(43, " ") + timeString;
+  printAnylabel("TimePrinted", "TimePrinted", description, 1);
+}
+
+/* ==========================================
+   Page Initialization & Barcodes
+========================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  loadPresets();
+  bindUserPresetDeleteHandler();
+  initGradientPicker();
+  bindEnterToPrint();
+  checkInitialConfig();
+
+  // Control barcodes
+  JsBarcode("#barcodeDT", "\x09\x09", {
+    height: 25,
+    text: "Double Tab",
+    fontOptions: "bold",
+    fontSize: 10,
+    font: "Arial"
+  });
+
+  JsBarcode("#barcodeST", "\x09", {
+    height: 25,
+    text: "Single Tab",
+    fontOptions: "bold",
+    fontSize: 10,
+    font: "Arial"
+  });
+
+  JsBarcode("#barcodeDTS", "\x09\x09 ", {
+    height: 25,
+    text: "Double Tab Space",
+    fontOptions: "bold",
+    fontSize: 10,
+    font: "Arial"
+  });
+
+  // Initial barcode preview
+  JsBarcode("#barcodePreview", "Input", {
+    height: 25,
+    text: "Enter Barcode",
+    fontOptions: "bold",
+    fontSize: 10,
+    font: "Arial"
+  });
+
+  // Update preview on blur of main inputs only
+  var barcodeInputs = document.querySelectorAll("#barcodedata, #displaytext");
+  barcodeInputs.forEach(function (input) {
+    input.addEventListener("blur", function () {
+      var barcodeData = document.getElementById("barcodedata").value;
+      var displayText = document.getElementById("displaytext").value;
+      if (barcodeData !== "" || displayText !== "") {
+        JsBarcode("#barcodePreview", barcodeData, {
+          height: 25,
+          text: displayText,
+          fontOptions: "bold",
+          fontSize: 10,
+          font: "Arial"
+        });
+      } else {
+        JsBarcode("#barcodePreview", "Input", {
+          height: 25,
+          text: "Enter Barcode",
+          fontOptions: "bold",
+          fontSize: 10,
+          font: "Arial"
+        });
+      }
+    });
+  });
+});
+
+// Shortcut keys 1-9 for presets
+document.addEventListener("keydown", function (event) {
+  // Prevent shortcuts when typing in inputs or if modal is open
+  var modal = document.getElementById("settingsModal");
+  if (modal && modal.style.display !== "none") {
+    if (event.key === "Escape" && modal.dataset.force !== "true") {
+      closeSettingsModal();
+    }
+    return;
+  }
+
+  if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
+    return;
+  }
+
+  if (event.key >= "1" && event.key <= "9") {
+    var presetIndex = parseInt(event.key) - 1;
+    var presets = document.querySelectorAll("#presets a");
+    if (presets[presetIndex]) {
+      event.preventDefault();
+      presets[presetIndex].click();
+    }
+  }
+});
+  </script>
+</body>
+</html>
