@@ -529,7 +529,30 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 #utilities {
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px 10px;
+}
+
+.truck-labels-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 2px dashed #ce0101;
+  border-radius: 8px;
+  background-color: rgba(206, 1, 1, 0.06);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.truck-labels-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8f0000;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+  user-select: none;
 }
 
 #inputs {
@@ -865,18 +888,20 @@ a.apmbutton[data-user] {
         <a class="apmbutton" onClick='printAnylabel("Damaged","Damaged","ISS Exception",2);'>9:Damaged</a>
       </div>
       <div id="utilities">
-        <a class="spdbutton" onClick='printAnylabel("1","1","Sideline Speed Baby!",1);'>&copy; Speed Sideliner Label</a>
+        <a class="spdbutton" onClick='printAnylabel("1","1","Sideline Speed Baby!",1);'>&copy; Speed SL Label</a>
         <a class="stripbuttonF" onClick='printQS()'>&equiv; Quantity Stow Speed Sheet</a>
-        <a class="stripbuttonF" onClick='printQSZPL()'>&equiv; Quantity Stow Speed Sheet(ZPL)</a>
-        <a class="stripbutton"
-          onClick='printAnylabel("ISS Exceptions","ISS Exceptions","ISS Exceptions Do Not Stow!",10);'>&equiv; ISS
-          Exceptions Uboat</a>
-        <a class="stripbutton"
-          onClick='printAnylabel("ISS Exceptions","Damaged Items Uboat","Damaged Items Uboat Do Not Stow!",10);'>&equiv;
-          Damaged Items Uboat</a>
-        <a class="stripbutton"
-          onClick='printAnylabel("ISS Exceptions","Defective PS Uboat","Defective PS Uboat - Leave on Floor!, Do Not Stow!",10);'>&equiv;
-          Defective PS Uboat</a>
+        <div class="truck-labels-group">
+          <span class="truck-labels-title">Truck Labels:</span>
+          <a class="stripbutton"
+            onClick='printAnylabel("ISS Exceptions","ISS Exceptions","ISS Exceptions Do Not Stow!",10);'>&equiv; ISS
+            Exceptions Uboat</a>
+          <a class="stripbutton"
+            onClick='printAnylabel("ISS Exceptions","Damaged Items Uboat","Damaged Items Uboat Do Not Stow!",10);'>&equiv;
+            Damaged Items Uboat</a>
+          <a class="stripbutton"
+            onClick='printAnylabel("ISS Exceptions","Defective PS Uboat","Defective PS Uboat - Leave on Floor!, Do Not Stow!",10);'>&equiv;
+            Defective PS Uboat</a>
+        </div>
         <a class="spdbutton" onClick='printNow();'>Now!</a>
       </div>
       <div id="controlBarcodes">
