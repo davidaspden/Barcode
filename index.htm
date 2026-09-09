@@ -421,8 +421,7 @@ input[type="text"]:focus, input[type="number"]:focus {
 }
 
 #presets {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 12px 14px 14px 14px;
   display: flex;
   border-top: 2px solid #200388;
   border-bottom: 2px solid #200388;
@@ -432,16 +431,41 @@ input[type="text"]:focus, input[type="number"]:focus {
   width: 100%;
   flex-wrap: wrap;
   gap: 7px 6px;
+  box-sizing: border-box;
 }
 
 .presets-title {
   flex-basis: 100%;
-  margin: 0 0 8px;
+  margin: 0 0 8px 0;
+  padding: 4px 6px 6px 6px;
   text-align: left;
   font-size: 1rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: #1b2653;
   text-transform: uppercase;
+  border-bottom: 1px solid rgba(32, 3, 136, 0.18);
+}
+
+.title-barcode-logo {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  vertical-align: middle;
+}
+
+.spdbutton--static {
+  cursor: default;
+}
+
+.spdbutton--static:hover {
+  border: 1px solid #170675;
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      from(#5ec4ff),
+      to(#2001ce));
 }
 
 @keyframes rotating {
@@ -794,7 +818,7 @@ a.apmbutton[data-user] {
         <div class="gradient-choice" data-gradient-choice="blue-white" title="Blue to White"></div>
       </div>
       <div class="title-heading">
-        <img class="title-mark" src="./images/earthdark.jpg" alt="Exceptions logo">
+        <svg id="barcodeGenericLogo" class="title-barcode-logo" aria-label="Generic Barcode Logo"></svg>
         <h1>Dave's Exceptions Barcode Generator</h1>
       </div>
       <div id="create">
@@ -856,9 +880,9 @@ a.apmbutton[data-user] {
         <a class="spdbutton" onClick='printNow();'>Now!</a>
       </div>
       <div id="controlBarcodes">
-        <a class="spdbutton" onClick='printTab()'><svg id="barcodeST"></svg></a>
-        <a class="spdbutton" onClick='printDoubleTab()'><svg id="barcodeDT"></svg></a>
-        <a class="spdbutton"><svg id="barcodeDTS"></svg></a>
+        <span class="spdbutton spdbutton--static" title="Single Tab Barcode"><svg id="barcodeST"></svg></span>
+        <span class="spdbutton spdbutton--static" title="Double Tab Barcode"><svg id="barcodeDT"></svg></span>
+        <span class="spdbutton spdbutton--static" title="Double Tab Space Barcode"><svg id="barcodeDTS"></svg></span>
       </div>
       <div id="tag">&copy; Alabama State Trooper 1337</div>
     </div>
@@ -930,7 +954,7 @@ a.apmbutton[data-user] {
       <form id="settingsForm" onsubmit="saveSettings(event);">
         <div class="modal-field">
           <label for="modalBadgeId">Badge ID <span class="required">*</span></label>
-          <input type="text" id="modalBadgeId" placeholder="e.g. 8008135" autocomplete="off" required>
+          <input type="text" id="modalBadgeId" placeholder="8008135" autocomplete="off" required>
         </div>
         <div class="modal-field">
           <label for="modalPrinterPath">Printer Path / URL <span class="required">*</span></label>
@@ -978,20 +1002,6 @@ function getStatus(url, funcvalid, funcinvalid) {
   }
 }
 
-function getQueryVariable(variable) {
-  var query = window.location.search.substring(1);
-  if (query != "") {
-    var vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
-      if (pair[0] == variable) {
-        return decodeURIComponent(pair[1]);
-      }
-    }
-  }
-  return false;
-}
-
 function asciihex(str) {
   var text = "";
   if (!str) {
@@ -1012,11 +1022,7 @@ function printFailed() {
    Configuration & LocalStorage Management
 ========================================== */
 function getBadgeId() {
-  var queryBadge = getQueryVariable("badgeID");
-  if (queryBadge) {
-    return queryBadge;
-  }
-  return localStorage.getItem("badgeID") || "";
+  return localStorage.getItem("badgeID") || "8008135";
 }
 
 function getPrinterBaseUrl() {
@@ -1066,7 +1072,7 @@ function openSettingsModal(forceSetup) {
   statusMsg.className = "modal-status";
   statusMsg.textContent = "";
 
-  badgeInput.value = localStorage.getItem("badgeID") || getQueryVariable("badgeID") || "";
+  badgeInput.value = localStorage.getItem("badgeID") || "8008135";
   printerInput.value = localStorage.getItem("printerPath") || "";
 
   if (forceSetup) {
@@ -1188,16 +1194,12 @@ function testPrinterConnection() {
 
 function checkInitialConfig() {
   var savedBadge = localStorage.getItem("badgeID");
-  var queryBadge = getQueryVariable("badgeID");
-
-  if (queryBadge && !savedBadge) {
-    localStorage.setItem("badgeID", queryBadge);
-    savedBadge = queryBadge;
+  if (!savedBadge) {
+    localStorage.setItem("badgeID", "8008135");
   }
 
   var savedPrinter = localStorage.getItem("printerPath");
-
-  if (!savedBadge || !savedPrinter) {
+  if (!savedPrinter) {
     openSettingsModal(true);
   }
 }
@@ -1589,6 +1591,17 @@ document.addEventListener("DOMContentLoaded", function () {
   initGradientPicker();
   bindEnterToPrint();
   checkInitialConfig();
+  // Generic logo barcode
+  JsBarcode("#barcodeGenericLogo", "Generic", {
+    height: 22,
+    width: 1.25,
+    text: "Generic",
+    fontOptions: "bold",
+    fontSize: 9,
+    font: "Arial",
+    margin: 3,
+    background: "#ffffff"
+  });
 
   // Control barcodes
   JsBarcode("#barcodeDT", "\x09\x09", {
