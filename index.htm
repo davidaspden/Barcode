@@ -468,6 +468,235 @@ input[type="text"]:focus, input[type="number"]:focus {
       to(#2001ce));
 }
 
+/* QOL: Quantity Pills & Key Badges */
+.qty-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.16);
+  color: inherit;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 5px;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+
+.pill-printer-icon {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  vertical-align: -1px;
+}
+
+.key-badge {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.28);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-right: 5px;
+  font-family: inherit;
+  line-height: 1.3;
+  color: inherit;
+  vertical-align: middle;
+}
+
+/* QOL: Steppers and Quick Chips */
+.quantity-stepper-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid #ddbd0ada;
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+  color: #1a3a5c;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: all 0.15s ease;
+  line-height: 1;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stepper-btn:hover {
+  background: linear-gradient(to bottom, #fff7d6, #ffd65e);
+  border-color: #f7b800;
+  color: #000;
+}
+
+.stepper-btn:active {
+  transform: scale(0.95);
+}
+
+.quantity-quick-chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.qty-chip {
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: 1px solid rgba(221, 189, 10, 0.7);
+  background: #ffffff;
+  color: #1a3a5c;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.qty-chip:hover {
+  background: #fff7d6;
+  border-color: #f7b800;
+  color: #000000;
+}
+
+.qty-chip.active {
+  background: #0b63a8;
+  border-color: #08406f;
+  color: #ffffff;
+}
+
+/* QOL: Flash animation on print */
+@keyframes btnFlash {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); transform: scale(1); }
+  50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); transform: scale(1.04); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); transform: scale(1); }
+}
+
+.btn-print-flash {
+  animation: btnFlash 0.45s ease-out !important;
+}
+
+/* QOL: Toast notification */
+#toastContainer {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #1e293b;
+  color: #ffffff;
+  border-left: 4px solid #10b981;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: auto;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* QOL: Sound toggle button */
+.sound-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  color: #000000;
+  margin-left: 2px;
+}
+
+.sound-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.sound-toggle-btn.muted svg {
+  opacity: 0.45;
+}
+
+/* QOL: Last printed bar */
+.last-printed-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 71, 120, 0.3);
+  border-radius: 16px;
+  font-size: 11.5px;
+  color: #0f4778;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.last-printed-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #475569;
+}
+
+.last-printed-details {
+  font-weight: 600;
+  color: #0b497a;
+}
+
+.reprint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #0b63a8;
+  color: #ffffff;
+  border: 1px solid #08406f;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.reprint-btn:hover {
+  background: #084c82;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 @keyframes rotating {
   from {
     transform: rotate(0deg);
@@ -833,6 +1062,7 @@ a.apmbutton[data-user] {
   </style>
 </head>
 <body>
+  <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
   <div id="containerBarcode">
     <div class="title rotating-border">
       <div id="gradientPicker" aria-label="Choose title background gradient">
@@ -851,9 +1081,18 @@ a.apmbutton[data-user] {
           <label for="displaytext">Enter Display Text
             </label>
           <input maxlength="43" id="displaytext" type="text" placeholder="Human Readable Text">
-          <label for="quantity">
-            Enter Quantity</label>
-          <input maxlength="3" id="quantity" type="number" value="1" max="500" min="1" step="1">
+          <label for="quantity">Enter Quantity</label>
+          <div class="quantity-stepper-wrap">
+            <button type="button" class="stepper-btn" onclick="stepQuantity(-1);" title="Decrease quantity" aria-label="Decrease quantity">−</button>
+            <input maxlength="3" id="quantity" type="number" value="1" max="500" min="1" step="1">
+            <button type="button" class="stepper-btn" onclick="stepQuantity(1);" title="Increase quantity" aria-label="Increase quantity">+</button>
+          </div>
+          <div class="quantity-quick-chips">
+            <button type="button" class="qty-chip active" onclick="setQuickQuantity(1);">1</button>
+            <button type="button" class="qty-chip" onclick="setQuickQuantity(2);">2</button>
+            <button type="button" class="qty-chip" onclick="setQuickQuantity(5);">5</button>
+            <button type="button" class="qty-chip" onclick="setQuickQuantity(10);">10</button>
+          </div>
           <p class="mainPrint">
             <a class="apmbutton" onClick="addPreset();">Add Preset</a>
             <a class="apmbutton" onClick="clearUserPresets();">Clear Presets</a>
@@ -868,7 +1107,29 @@ a.apmbutton[data-user] {
                   stroke-width="1.2" />
               </svg>
             </a>
+            <a id="soundToggleBtn" class="sound-toggle-btn" href="javascript:void(0);" onClick="toggleSound(); return false;" title="Toggle Print Sound">
+              <svg id="soundIconOn" width="22px" height="22px" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+              <svg id="soundIconOff" width="22px" height="22px" viewBox="0 0 24 24" fill="none" stroke="#888888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            </a>
           </p>
+          <div id="lastPrintedBar" class="last-printed-bar" style="display: none;">
+            <span class="last-printed-label">Last Job:</span>
+            <span id="lastPrintedDetails" class="last-printed-details"></span>
+            <button type="button" id="reprintBtn" class="reprint-btn" onclick="reprintLastJob();" title="Print this job again">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" style="vertical-align: -1px;">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 13c0-4.42-3.58-8-8-8zm-6 8c0-1.01.25-1.97.7-2.8L5.24 8.74A7.93 7.93 0 004 13c0 4.42 3.58 8 8 8v4l5-5-5-5v4c-3.31 0-6-2.69-6-6z"/>
+              </svg>
+              Re-print
+            </button>
+          </div>
         </div>
         <div id="barcodePreviewSection">
           <div id="barcodePreviewTitle">Preview Barcode</div>
@@ -877,32 +1138,32 @@ a.apmbutton[data-user] {
       </div>
       <div id="presets">
         <h3 class="presets-title">Presets</h3>
-        <a class="apmbutton" onClick='printAnylabel("Non Sort","Non Sort","ISS Exception",2);'>1:Non Sort</a>
-        <a class="apmbutton" onClick='printAnylabel("Cubiscan","Cubiscan","ISS Exception",2);'>2:Cubiscan</a>
-        <a class="apmbutton" onClick='printAnylabel("Hazmat","Hazmat","ISS Exception",2);'>3:Hazmat</a>
-        <a class="apmbutton" onClick='printAnylabel("Broken Set","Broken Set","ISS Exception",2);'>4:Broken Set</a>
-        <a class="apmbutton" onClick='printAnylabel("DL Need","DL Need","ISS Exception",2);'>5:DL Need</a>
-        <a class="apmbutton" onClick='printAnylabel("Unknown Asin","Unknown Asin","ISS Exception",2);'>6:Unknown Asin</a>
-        <a class="apmbutton" onClick='printAnylabel("Pet Product","Pet Product","ISS Exception",2);'>7:Pet Product</a>
-        <a class="apmbutton" onClick='printAnylabel("Defective PS","Defective PS","ISS Exception",2);'>8:Defective PS</a>
-        <a class="apmbutton" onClick='printAnylabel("Damaged","Damaged","ISS Exception",2);'>9:Damaged</a>
+        <a class="apmbutton" onClick='printAnylabel("Non Sort","Non Sort","ISS Exception",2,"Non Sort");'><kbd class="key-badge">1</kbd>Non Sort<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Cubiscan","Cubiscan","ISS Exception",2,"Cubiscan");'><kbd class="key-badge">2</kbd>Cubiscan<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Hazmat","Hazmat","ISS Exception",2,"Hazmat");'><kbd class="key-badge">3</kbd>Hazmat<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Broken Set","Broken Set","ISS Exception",2,"Broken Set");'><kbd class="key-badge">4</kbd>Broken Set<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("DL Need","DL Need","ISS Exception",2,"DL Need");'><kbd class="key-badge">5</kbd>DL Need<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Unknown Asin","Unknown Asin","ISS Exception",2,"Unknown Asin");'><kbd class="key-badge">6</kbd>Unknown Asin<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Pet Product","Pet Product","ISS Exception",2,"Pet Product");'><kbd class="key-badge">7</kbd>Pet Product<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Defective PS","Defective PS","ISS Exception",2,"Defective PS");'><kbd class="key-badge">8</kbd>Defective PS<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
+        <a class="apmbutton" onClick='printAnylabel("Damaged","Damaged","ISS Exception",2,"Damaged");'><kbd class="key-badge">9</kbd>Damaged<span class="qty-pill" title="Prints 2 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>2</span></a>
       </div>
       <div id="utilities">
-        <a class="spdbutton" onClick='printAnylabel("1","1","Sideline Speed Baby!",1);'>&copy; Speed SL Label</a>
-        <a class="stripbuttonF" onClick='printQS()'>&equiv; Quantity Stow Speed Sheet</a>
+        <a class="spdbutton" onClick='printAnylabel("1","1","Sideline Speed Baby!",1,"Speed SL Label");'>&copy; Speed SL Label<span class="qty-pill" title="Prints 1 label"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>1</span></a>
+        <a class="stripbuttonF" onClick='printQS()'>&equiv; Quantity Stow Speed Sheet<span class="qty-pill" title="Prints 20 labels (10 batches)"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>20</span></a>
         <div class="truck-labels-group">
           <span class="truck-labels-title">Truck Labels:</span>
           <a class="stripbutton"
-            onClick='printAnylabel("ISS Exceptions","ISS Exceptions","ISS Exceptions Do Not Stow!",10);'>&equiv; ISS
-            Exceptions Uboat</a>
+            onClick='printAnylabel("ISS Exceptions","ISS Exceptions","ISS Exceptions Do Not Stow!",10,"ISS Exceptions Uboat");'>&equiv; ISS
+            Exceptions Uboat<span class="qty-pill" title="Prints 10 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>10</span></a>
           <a class="stripbutton"
-            onClick='printAnylabel("ISS Exceptions","Damaged Items Uboat","Damaged Items Uboat Do Not Stow!",10);'>&equiv;
-            Damaged Items Uboat</a>
+            onClick='printAnylabel("ISS Exceptions","Damaged Items Uboat","Damaged Items Uboat Do Not Stow!",10,"Damaged Items Uboat");'>&equiv;
+            Damaged Items Uboat<span class="qty-pill" title="Prints 10 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>10</span></a>
           <a class="stripbutton"
-            onClick='printAnylabel("ISS Exceptions","Defective PS Uboat","Defective PS Uboat - Leave on Floor!, Do Not Stow!",10);'>&equiv;
-            Defective PS Uboat</a>
+            onClick='printAnylabel("ISS Exceptions","Defective PS Uboat","Defective PS Uboat - Leave on Floor!, Do Not Stow!",10,"Defective PS Uboat");'>&equiv;
+            Defective PS Uboat<span class="qty-pill" title="Prints 10 labels"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>10</span></a>
         </div>
-        <a class="spdbutton" onClick='printNow();'>Now!</a>
+        <a class="spdbutton" onClick='printNow();'>Now!<span class="qty-pill" title="Prints 1 label"><svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>1</span></a>
       </div>
       <div id="controlBarcodes">
         <span class="spdbutton spdbutton--static" title="Single Tab Barcode"><svg id="barcodeST"></svg></span>
@@ -1230,11 +1491,167 @@ function checkInitialConfig() {
 }
 
 /* ==========================================
+   Quality of Life Enhancements
+========================================== */
+function getPrinterSvgMarkup() {
+  return '<svg class="pill-printer-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>';
+}
+
+function stepQuantity(delta) {
+  var qtyInput = document.getElementById("quantity");
+  if (!qtyInput) return;
+  var currentVal = parseInt(qtyInput.value, 10);
+  if (isNaN(currentVal)) currentVal = 1;
+  var newVal = Math.max(1, Math.min(500, currentVal + delta));
+  qtyInput.value = newVal;
+  updateQuickChipActive(newVal);
+}
+
+function setQuickQuantity(val) {
+  var qtyInput = document.getElementById("quantity");
+  if (!qtyInput) return;
+  qtyInput.value = val;
+  updateQuickChipActive(val);
+}
+
+function updateQuickChipActive(val) {
+  var chips = document.querySelectorAll(".qty-chip");
+  chips.forEach(function (chip) {
+    var chipVal = parseInt(chip.textContent.trim(), 10);
+    if (chipVal === parseInt(val, 10)) {
+      chip.classList.add("active");
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+}
+
+var audioCtx = null;
+function getAudioContext() {
+  if (!audioCtx) {
+    var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function isSoundEnabled() {
+  var stored = localStorage.getItem("printSoundEnabled");
+  return stored === null ? true : stored === "true";
+}
+
+function toggleSound() {
+  var currentlyEnabled = isSoundEnabled();
+  var newState = !currentlyEnabled;
+  localStorage.setItem("printSoundEnabled", newState ? "true" : "false");
+  updateSoundIcon(newState);
+  if (newState) {
+    playScannerBeep();
+  }
+}
+
+function updateSoundIcon(enabled) {
+  var iconOn = document.getElementById("soundIconOn");
+  var iconOff = document.getElementById("soundIconOff");
+  var btn = document.getElementById("soundToggleBtn");
+  if (!iconOn || !iconOff) return;
+  if (enabled) {
+    iconOn.style.display = "inline-block";
+    iconOff.style.display = "none";
+    if (btn) btn.title = "Print Sound: Enabled (Click to mute)";
+  } else {
+    iconOn.style.display = "none";
+    iconOff.style.display = "inline-block";
+    if (btn) btn.title = "Print Sound: Muted (Click to enable)";
+  }
+}
+
+function initSound() {
+  updateSoundIcon(isSoundEnabled());
+}
+
+function playScannerBeep() {
+  if (!isSoundEnabled()) return;
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(1800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(2400, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.09);
+  } catch (e) {
+    // AudioContext blocked or unsupported; silent fallback
+  }
+}
+
+function showPrintToast(title, quantity) {
+  var container = document.getElementById("toastContainer");
+  if (!container) return;
+  var toast = document.createElement("div");
+  toast.className = "toast";
+  var countText = quantity + (parseInt(quantity, 10) === 1 ? " label" : " labels");
+  toast.innerHTML = '<span class="toast-check">&#10003;</span> Printed ' + countText + ': <strong>' + escapeHtml(title || "Label") + '</strong>';
+  container.appendChild(toast);
+  setTimeout(function () {
+    toast.classList.add("fade-out");
+    setTimeout(function () {
+      toast.remove();
+    }, 250);
+  }, 2200);
+}
+
+function escapeHtml(text) {
+  var div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+var lastPrintedJob = null;
+function setLastPrinted(job) {
+  lastPrintedJob = job;
+  var bar = document.getElementById("lastPrintedBar");
+  var details = document.getElementById("lastPrintedDetails");
+  if (!bar || !details) return;
+  var title = job.title || job.displayText || job.barcode || "Label";
+  var q = job.quantity || 1;
+  details.textContent = title + " (" + q + (parseInt(q, 10) === 1 ? " label" : " labels") + ")";
+  bar.style.display = "flex";
+}
+
+function reprintLastJob() {
+  if (!lastPrintedJob) return;
+  if (lastPrintedJob.isQS) {
+    printQS();
+  } else {
+    printAnylabel(
+      lastPrintedJob.barcode,
+      lastPrintedJob.displayText,
+      lastPrintedJob.desc,
+      lastPrintedJob.quantity,
+      lastPrintedJob.title
+    );
+  }
+}
+
+/* ==========================================
    Preset Management
 ========================================== */
 function addPreset() {
   var barcode = document.getElementById("barcodedata").value;
   var displayText = document.getElementById("displaytext").value;
+  var quant = parseInt(document.getElementById("quantity").value, 10) || 2;
   if (barcode == "" && displayText == "") {
     return;
   }
@@ -1242,7 +1659,8 @@ function addPreset() {
   var preset = {
     id: createPresetId(),
     barcode: barcode,
-    displayText: displayText
+    displayText: displayText,
+    quantity: quant
   };
   var pre = buildUserPresetButton(preset);
   var presets = document.getElementById("presets");
@@ -1299,7 +1717,14 @@ function saveUserPresets(saved) {
 function buildUserPresetButton(preset) {
   var pre = document.createElement("a");
   var label = preset.displayText != "" ? preset.displayText : preset.barcode;
+  var qty = preset.quantity || 2;
   pre.appendChild(document.createTextNode(label));
+
+  var pill = document.createElement("span");
+  pill.className = "qty-pill";
+  pill.title = "Prints " + qty + (qty === 1 ? " label" : " labels");
+  pill.innerHTML = getPrinterSvgMarkup() + qty;
+  pre.appendChild(pill);
 
   var deleteBtn = document.createElement("span");
   deleteBtn.classList.add("delete-btn");
@@ -1316,7 +1741,8 @@ function buildUserPresetButton(preset) {
       preset.displayText != "" ? preset.displayText : preset.barcode,
       preset.barcode != "" ? preset.barcode : preset.displayText,
       "ISS Exception",
-      2
+      qty,
+      preset.displayText != "" ? preset.displayText : preset.barcode
     );
   };
   return pre;
@@ -1446,10 +1872,11 @@ function printLabel() {
   var displayText = document.getElementById("displaytext").value;
   var quant = document.getElementById("quantity").value;
   barcode = barcode.trim();
-  printAnylabel(barcode, displayText, "", quant);
+  var labelTitle = displayText || barcode || "Custom Label";
+  printAnylabel(barcode, displayText, "", quant, labelTitle);
 }
 
-function printAnylabel(b, t, d, n) {
+function printAnylabel(b, t, d, n, customTitle) {
   var endpoint = getPrinterEndpoint();
   if (!endpoint) {
     alert("Printer path is not configured. Please configure your settings.");
@@ -1459,16 +1886,28 @@ function printAnylabel(b, t, d, n) {
 
   var badge = getBadgeId() || "8008135";
   var parsedBadge = !isNaN(parseInt(badge, 10)) ? parseInt(badge, 10) : badge;
+  var qty = parseInt(n, 10) || 1;
+  var title = customTitle || t || b || "Label";
 
   getStatus(
     endpoint + "?action=print&type=barcode&" +
       "data=" + encodeURIComponent(asciihex(b)) +
       "&text=" + encodeURIComponent(asciihex(t)) +
-      "&quantity=" + encodeURIComponent(parseInt(n)) +
+      "&quantity=" + encodeURIComponent(qty) +
       "&badgeid=" + encodeURIComponent(parsedBadge) +
       "&desc=" + encodeURIComponent(asciihex(d)) +
       "&seq=" + encodeURIComponent(genId()),
-    function () {},
+    function () {
+      playScannerBeep();
+      showPrintToast(title, qty);
+      setLastPrinted({
+        barcode: b,
+        displayText: t,
+        desc: d,
+        quantity: qty,
+        title: title
+      });
+    },
     printFailed
   );
 }
@@ -1544,9 +1983,16 @@ async function printQS() {
       });
     } catch (error) {
       console.error("Error in printQS: Request failed");
-      break;
+      return;
     }
   }
+  playScannerBeep();
+  showPrintToast("Quantity Stow Speed Sheet", 20);
+  setLastPrinted({
+    isQS: true,
+    title: "Quantity Stow Speed Sheet",
+    quantity: 20
+  });
 }
 
 async function printQSZPL() {
@@ -1604,18 +2050,38 @@ function printNow() {
   var minutes = String(now.getMinutes()).padStart(2, "0");
   var timeString = "Time: " + hours + ":" + minutes;
   var description = dateString.padEnd(43, " ") + timeString;
-  printAnylabel("TimePrinted", "TimePrinted", description, 1);
+  printAnylabel("TimePrinted", "TimePrinted", description, 1, "Now!");
 }
 
 /* ==========================================
    Page Initialization & Barcodes
-========================================== */
+========================================= */
 document.addEventListener("DOMContentLoaded", function () {
   loadPresets();
   bindUserPresetDeleteHandler();
   initGradientPicker();
   bindEnterToPrint();
   checkInitialConfig();
+  initSound();
+
+  var qtyInput = document.getElementById("quantity");
+  if (qtyInput) {
+    qtyInput.addEventListener("input", function () {
+      updateQuickChipActive(this.value);
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    var btn = event.target.closest(".apmbutton, .spdbutton, .stripbutton, .stripbuttonF");
+    if (!btn) return;
+    if (btn.classList.contains("spdbutton--static") || btn.classList.contains("delete-btn")) return;
+    btn.classList.remove("btn-print-flash");
+    void btn.offsetWidth;
+    btn.classList.add("btn-print-flash");
+    setTimeout(function () {
+      btn.classList.remove("btn-print-flash");
+    }, 450);
+  });
   // Generic logo barcode (easter egg)
   JsBarcode("#barcodeGenericLogo", "Generic", {
     height: 28,
